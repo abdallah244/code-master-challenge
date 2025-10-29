@@ -1,0 +1,27 @@
+<div class="loading-overlay" [class]="type">
+  <div class="loading-content">
+    <div class="loading-animation">
+      @switch (type) {
+        @case ('spinner') {
+          <div class="spinner"></div>
+        }
+        @case ('dots') {
+          <div class="dots-container">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+          </div>
+        }
+        @case ('pulse') {
+          <div class="pulse-container">
+            <div class="pulse-circle"></div>
+            <div class="pulse-ring"></div>
+            <div class="pulse-ring delay-1"></div>
+            <div class="pulse-ring delay-2"></div>
+          </div>
+        }
+      }
+    </div>
+    <p class="loading-message">{{ message }}</p>
+  </div>
+</div>

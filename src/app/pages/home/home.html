@@ -1,0 +1,139 @@
+@if (isLoading) {
+  <app-loading
+    [message]="'INITIALIZING_SYSTEM' | translate"
+    type="spinner">
+  </app-loading>
+} @else {
+  <div class="home-container">
+    <!-- Matrix Background -->
+    <div class="matrix-bg"></div>
+
+    <!-- Animated Code Elements -->
+    <div class="code-elements">
+      <div class="code-line" *ngFor="let line of [1,2,3,4,5,6]"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+      <div class="header-content">
+        <div class="user-stats">
+          <div class="stat-item coins">
+            <mat-icon class="stat-icon">memory</mat-icon>
+            <span class="stat-value">{{ coins }}</span>
+            <span class="stat-label">CPU Credits</span>
+          </div>
+        </div>
+
+        <div class="language-switcher">
+
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="cyber-grid">
+        <div class="grid-line vertical"></div>
+        <div class="grid-line horizontal"></div>
+        <div class="grid-line diagonal"></div>
+      </div>
+
+      <div class="hero-section">
+        <!-- Logo and Title -->
+        <div class="title-section">
+          <div class="logo-container">
+            <div class="cyber-logo">
+              <div class="logo-inner">
+                <mat-icon class="logo-icon">terminal</mat-icon>
+              </div>
+              <div class="logo-glow"></div>
+            </div>
+          </div>
+
+          <h1 class="main-title">
+            <span class="title-text">CODEMASTER</span>
+            <span class="title-subtext">CHALLENGE</span>
+          </h1>
+
+          <p class="tagline">HACK YOUR WAY TO THE TOP</p>
+        </div>
+
+        <!-- Navigation Cards -->
+        <div class="navigation-grid">
+          <!-- Start Game Card -->
+          <div class="nav-card primary" (click)="navigateTo('/levels')">
+            <div class="card-icon">
+              <mat-icon>play_arrow</mat-icon>
+            </div>
+            <div class="card-content">
+              <h3 class="card-title">INITIATE SEQUENCE</h3>
+              <p class="card-desc">Begin your coding journey</p>
+            </div>
+            <div class="card-badge">NEW</div>
+          </div>
+
+          <!-- Levels Card -->
+          <div class="nav-card" (click)="navigateTo('/levels')">
+            <div class="card-icon">
+              <mat-icon>layers</mat-icon>
+            </div>
+            <div class="card-content">
+              <h3 class="card-title">DIFFICULTY MATRIX</h3>
+              <p class="card-desc">Select challenge level</p>
+            </div>
+          </div>
+
+          <!-- Shop Card -->
+          <div class="nav-card" (click)="navigateTo('/shop')">
+            <div class="card-icon">
+              <mat-icon>inventory_2</mat-icon>
+            </div>
+            <div class="card-content">
+              <h3 class="card-title">TOOLS DATABASE</h3>
+              <p class="card-desc">Acquire power-ups</p>
+            </div>
+          </div>
+
+          <!-- Achievements Card -->
+          <div class="nav-card" (click)="navigateTo('/achievements')">
+            <div class="card-icon">
+              <mat-icon>military_tech</mat-icon>
+            </div>
+            <div class="card-content">
+              <h3 class="card-title">ACHIEVEMENT CORE</h3>
+              <p class="card-desc">View your progress</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Status Bar -->
+        <div class="status-bar">
+          <div class="status-item">
+            <span class="status-label">SYSTEM</span>
+            <span class="status-value">ONLINE</span>
+          </div>
+          <div class="status-item">
+            <span class="status-label">USERS</span>
+            <span class="status-value">ACTIVE</span>
+          </div>
+          <div class="status-item">
+            <span class="status-label">VERSION</span>
+            <span class="status-value">1.0.0</span>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-content">
+        <p class="copyright">© 2025 CODEMASTER | Abdallah Hany | ALL RIGHTS REASEVED</p>
+        <div class="footer-links">
+          <span class="footer-link">SECURITY</span>
+          <span class="footer-link">PRIVACY</span>
+          <span class="footer-link">TERMS</span>
+        </div>
+      </div>
+    </footer>
+  </div>
+}

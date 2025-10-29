@@ -1,0 +1,191 @@
+/* Angular Material Imports */
+@import '@angular/material/prebuilt-themes/azure-blue.css';
+
+/* Global Dark Theme */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --primary-color: #1a73e8;
+  --accent-color: #d81b60;
+  --dark-bg: #0d1117;
+  --darker-bg: #050811;
+  --card-bg: rgba(16, 20, 28, 0.8);
+  --text-primary: #e1e7ef;
+  --text-secondary: rgba(225, 231, 239, 0.7);
+}
+
+html, body {
+  height: 100%;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background:
+    radial-gradient(ellipse at top, #1a1f35 0%, var(--dark-bg) 50%, var(--darker-bg) 100%);
+  background-attachment: fixed;
+  color: var(--text-primary);
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Matrix Background */
+.matrix-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: -2;
+  opacity: 0.03;
+  background:
+    linear-gradient(90deg, transparent 79px, rgba(26, 115, 232, 0.1) 81px, rgba(26, 115, 232, 0.1) 82px, transparent 84px),
+    linear-gradient(transparent 79px, rgba(26, 115, 232, 0.1) 81px, rgba(26, 115, 232, 0.1) 82px, transparent 84px);
+  background-size: 85px 85px;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(13, 17, 23, 0.8);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--primary-color), var(--accent-color));
+  border-radius: 5px;
+  border: 2px solid rgba(13, 17, 23, 0.8);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #1565c0, #c2185b);
+}
+
+/* Animations */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  33% {
+    transform: translateY(-20px) rotate(120deg);
+  }
+  66% {
+    transform: translateY(10px) rotate(240deg);
+  }
+}
+
+@keyframes glow {
+  0%, 100% {
+    box-shadow:
+      0 0 20px rgba(26, 115, 232, 0.3),
+      0 0 40px rgba(26, 115, 232, 0.1);
+  }
+  50% {
+    box-shadow:
+      0 0 30px rgba(26, 115, 232, 0.5),
+      0 0 60px rgba(26, 115, 232, 0.2);
+  }
+}
+
+@keyframes matrix-fall {
+  0% {
+    transform: translateY(-100px) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Utility Classes */
+.glass-effect {
+  background: rgba(16, 20, 28, 0.7);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+}
+
+.text-gradient {
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Override Material Colors */
+.mat-mdc-card {
+  background: var(--card-bg) !important;
+  color: var(--text-primary) !important;
+}
+
+// إضافة دعم RTL
+body.rtl {
+  direction: rtl;
+  text-align: right;
+
+  .mat-mdc-card,
+  .mat-mdc-button,
+  .level-card,
+  .question-card,
+  .nav-card {
+    text-align: right;
+  }
+
+  .header-content,
+  .level-header,
+  .question-header,
+  .answers-grid {
+    flex-direction: row-reverse;
+  }
+
+  .stat-item,
+  .level-stats .stat,
+  .info-item {
+    flex-direction: row-reverse;
+  }
+
+  .action-btn,
+  .start-btn,
+  .unlock-btn,
+  .tool-btn {
+    flex-direction: row-reverse;
+  }
+
+  .language-switcher {
+    flex-direction: row-reverse;
+  }
+
+  .level-status,
+  .status-icon {
+    margin-left: 0;
+    margin-right: auto;
+  }
+}
+
+body.ltr {
+  direction: ltr;
+  text-align: left;
+}

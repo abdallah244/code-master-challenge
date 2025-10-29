@@ -1,0 +1,891 @@
+.achievements-container {
+  min-height: 100vh;
+  background: transparent;
+  position: relative;
+  overflow-x: hidden;
+
+  .cyber-grid {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    opacity: 0.1;
+    z-index: 1;
+
+    .grid-line {
+      position: absolute;
+      background: rgba(26, 115, 232, 0.3);
+
+      &.vertical {
+        top: 0;
+        bottom: 0;
+        left: 50%;
+        width: 1px;
+        transform: translateX(-50%);
+      }
+
+      &.horizontal {
+        left: 0;
+        right: 0;
+        top: 50%;
+        height: 1px;
+        transform: translateY(-50%);
+      }
+    }
+  }
+
+  .achievements-header {
+    padding: 20px 30px;
+    background: rgba(16, 20, 28, 0.8);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    position: relative;
+    z-index: 10;
+
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      max-width: 1400px;
+      margin: 0 auto;
+
+      .back-btn {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 16px;
+        background: rgba(16, 20, 28, 0.8);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        color: #e1e7ef;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-weight: 600;
+        font-size: 0.9rem;
+
+        &:hover {
+          border-color: #1a73e8;
+          background: rgba(26, 115, 232, 0.1);
+        }
+
+        mat-icon {
+          font-size: 20px;
+          width: 20px;
+          height: 20px;
+        }
+      }
+
+      .header-title {
+        text-align: center;
+        flex: 1;
+
+        h1 {
+          font-size: 2.5rem;
+          font-weight: 900;
+          background: linear-gradient(135deg, #1a73e8, #d81b60);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+          margin: 0 0 8px 0;
+          letter-spacing: 3px;
+        }
+
+        p {
+          font-size: 1rem;
+          color: rgba(225, 231, 239, 0.7);
+          margin: 0;
+          letter-spacing: 2px;
+          text-transform: uppercase;
+        }
+      }
+
+      .user-stats {
+        .stat-item {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          padding: 10px 16px;
+          background: rgba(16, 20, 28, 0.8);
+          border: 1px solid rgba(26, 115, 232, 0.3);
+          border-radius: 8px;
+          color: #e1e7ef;
+
+          mat-icon {
+            color: #FFD700;
+            font-size: 20px;
+            width: 20px;
+            height: 20px;
+          }
+
+          span {
+            font-weight: 600;
+            font-size: 0.9rem;
+          }
+        }
+      }
+    }
+  }
+
+  .progress-overview {
+    padding: 40px 20px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+
+    .overview-card {
+      background: rgba(16, 20, 28, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 40px;
+      display: flex;
+      align-items: center;
+      gap: 60px;
+      backdrop-filter: blur(20px);
+
+      .progress-circle {
+        position: relative;
+        width: 160px;
+        height: 160px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.05);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .circle-background {
+          position: absolute;
+          top: 10px;
+          left: 10px;
+          right: 10px;
+          bottom: 10px;
+          border: 3px solid rgba(255, 255, 255, 0.1);
+          border-radius: 50%;
+        }
+
+        .circle-progress {
+          position: absolute;
+          top: 10px;
+          left: 10px;
+          right: 10px;
+          bottom: 10px;
+          border: 3px solid;
+          border-color: #1a73e8;
+          border-top-color: transparent;
+          border-right-color: transparent;
+          border-radius: 50%;
+          transform: rotate(0deg);
+          transition: transform 1s ease;
+        }
+
+        .progress-text {
+          text-align: center;
+          z-index: 2;
+
+          .percentage {
+            display: block;
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: #e1e7ef;
+            line-height: 1;
+            margin-bottom: 4px;
+          }
+
+          .label {
+            font-size: 0.9rem;
+            color: rgba(225, 231, 239, 0.7);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+          }
+        }
+      }
+
+      .overview-stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 30px;
+        flex: 1;
+
+        .stat {
+          display: flex;
+          align-items: center;
+          gap: 16px;
+          padding: 20px;
+          background: rgba(255, 255, 255, 0.05);
+          border-radius: 12px;
+          transition: all 0.3s ease;
+
+          &:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateY(-2px);
+          }
+
+          mat-icon {
+            font-size: 32px;
+            width: 32px;
+            height: 32px;
+
+            &.unlocked {
+              color: #4CAF50;
+            }
+
+            &.locked {
+              color: #757575;
+            }
+
+            &.coins {
+              color: #FFD700;
+            }
+          }
+
+          div {
+            .count {
+              display: block;
+              font-size: 1.8rem;
+              font-weight: 900;
+              color: #e1e7ef;
+              line-height: 1;
+              margin-bottom: 4px;
+            }
+
+            .description {
+              font-size: 0.9rem;
+              color: rgba(225, 231, 239, 0.7);
+              text-transform: uppercase;
+              letter-spacing: 1px;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .achievements-content {
+    padding: 20px 20px 40px;
+    max-width: 1400px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+
+    .categories-section {
+      margin-bottom: 40px;
+
+      .categories-grid {
+        display: flex;
+        gap: 12px;
+        justify-content: center;
+        flex-wrap: wrap;
+
+        .category-btn {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 4px;
+          padding: 16px 24px;
+          background: rgba(16, 20, 28, 0.6);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          border-radius: 12px;
+          color: rgba(225, 231, 239, 0.7);
+          cursor: pointer;
+          transition: all 0.3s ease;
+          min-width: 140px;
+
+          &:hover {
+            border-color: rgba(26, 115, 232, 0.5);
+            background: rgba(26, 115, 232, 0.1);
+            transform: translateY(-2px);
+          }
+
+          &.active {
+            background: rgba(26, 115, 232, 0.2);
+            border-color: #1a73e8;
+            color: #e1e7ef;
+            box-shadow: 0 4px 15px rgba(26, 115, 232, 0.3);
+          }
+
+          .category-text {
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+          }
+
+          .category-count {
+            font-size: 0.8rem;
+            color: rgba(225, 231, 239, 0.5);
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2px 8px;
+            border-radius: 10px;
+          }
+        }
+      }
+    }
+
+    .achievements-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+      gap: 24px;
+      margin-bottom: 40px;
+
+      .achievement-card {
+        position: relative;
+        background: rgba(16, 20, 28, 0.7);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 16px;
+        padding: 0;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        cursor: pointer;
+
+        .achievement-glow {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          opacity: 0;
+          transition: opacity 0.3s ease;
+        }
+
+        .rarity-border {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          border: 2px solid;
+          border-radius: 16px;
+          opacity: 0.5;
+          transition: opacity 0.3s ease;
+        }
+
+        .completion-effects {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          pointer-events: none;
+          opacity: 0;
+          transition: opacity 0.3s ease;
+
+          .sparkle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            animation: sparkle 2s ease-in-out infinite;
+
+            &:nth-child(1) {
+              top: 20px;
+              right: 20px;
+              width: 8px;
+              height: 8px;
+            }
+
+            &:nth-child(2) {
+              bottom: 30px;
+              left: 30px;
+              width: 6px;
+              height: 6px;
+              animation-delay: 0.5s;
+            }
+
+            &:nth-child(3) {
+              top: 50%;
+              left: 50%;
+              transform: translate(-50%, -50%);
+              width: 10px;
+              height: 10px;
+              animation-delay: 1s;
+            }
+          }
+        }
+
+        &:hover {
+          transform: translateY(-5px);
+          border-color: rgba(255, 255, 255, 0.2);
+
+          .achievement-glow {
+            opacity: 0.1;
+          }
+
+          .rarity-border {
+            opacity: 0.8;
+          }
+
+          &.completed .completion-effects {
+            opacity: 1;
+          }
+        }
+
+        &.common .rarity-border {
+          border-color: #757575;
+        }
+
+        &.rare .rarity-border {
+          border-color: #2196F3;
+        }
+
+        &.epic .rarity-border {
+          border-color: #9C27B0;
+        }
+
+        &.legendary .rarity-border {
+          border-color: #FF9800;
+          animation: glow 2s ease-in-out infinite;
+        }
+
+        &.completed {
+          .achievement-glow {
+            opacity: 0.05;
+          }
+
+          .rarity-border {
+            opacity: 0.8;
+          }
+        }
+
+        &.locked {
+          opacity: 0.7;
+        }
+
+        .achievement-content {
+          position: relative;
+          z-index: 2;
+          padding: 24px;
+
+          .achievement-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            margin-bottom: 16px;
+
+            .achievement-icon {
+              width: 60px;
+              height: 60px;
+              border-radius: 12px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              flex-shrink: 0;
+              transition: transform 0.3s ease;
+
+              mat-icon {
+                font-size: 28px;
+                width: 28px;
+                height: 28px;
+                color: white;
+              }
+            }
+
+            .achievement-info {
+              flex: 1;
+
+              .achievement-name {
+                font-size: 1.3rem;
+                font-weight: 700;
+                color: #e1e7ef;
+                margin: 0 0 8px 0;
+                letter-spacing: 0.5px;
+              }
+
+              .achievement-meta {
+                display: flex;
+                gap: 12px;
+
+                .achievement-rarity {
+                  font-size: 0.8rem;
+                  font-weight: 600;
+                  text-transform: uppercase;
+                  letter-spacing: 1px;
+                }
+
+                .achievement-category {
+                  font-size: 0.8rem;
+                  color: rgba(225, 231, 239, 0.6);
+                  background: rgba(255, 255, 255, 0.1);
+                  padding: 2px 8px;
+                  border-radius: 6px;
+                }
+              }
+            }
+
+            .achievement-reward {
+              .reward-badge {
+                display: flex;
+                align-items: center;
+                gap: 6px;
+                background: rgba(255, 215, 0, 0.2);
+                border: 1px solid rgba(255, 215, 0, 0.5);
+                border-radius: 8px;
+                padding: 8px 12px;
+                color: #FFD700;
+
+                mat-icon {
+                  font-size: 18px;
+                  width: 18px;
+                  height: 18px;
+                }
+
+                span {
+                  font-weight: 700;
+                  font-size: 0.9rem;
+                }
+              }
+            }
+          }
+
+          .achievement-description {
+            color: rgba(225, 231, 239, 0.8);
+            line-height: 1.5;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+            min-height: 48px;
+          }
+
+          .progress-section {
+            margin-bottom: 16px;
+
+            .progress-info {
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              margin-bottom: 8px;
+
+              .progress-text {
+                font-size: 0.9rem;
+                color: rgba(225, 231, 239, 0.7);
+                font-weight: 600;
+              }
+
+              .progress-percentage {
+                font-size: 0.9rem;
+                color: #1a73e8;
+                font-weight: 700;
+              }
+            }
+
+            mat-progress-bar {
+              border-radius: 4px;
+              overflow: hidden;
+
+              ::ng-deep .mdc-linear-progress__bar-inner {
+                border-radius: 4px;
+              }
+            }
+          }
+
+          .status-section {
+            .status-badge {
+              display: inline-flex;
+              align-items: center;
+              gap: 6px;
+              padding: 8px 16px;
+              border-radius: 20px;
+              font-weight: 600;
+              font-size: 0.8rem;
+              text-transform: uppercase;
+              letter-spacing: 1px;
+
+              &.completed {
+                background: rgba(76, 175, 80, 0.2);
+                border: 1px solid rgba(76, 175, 80, 0.5);
+                color: #4CAF50;
+              }
+
+              &.locked {
+                background: rgba(117, 117, 117, 0.2);
+                border: 1px solid rgba(117, 117, 117, 0.5);
+                color: rgba(225, 231, 239, 0.6);
+              }
+
+              mat-icon {
+                font-size: 16px;
+                width: 16px;
+                height: 16px;
+              }
+            }
+          }
+        }
+
+        // تأثيرات خاصة للإنجازات المكتملة
+        &.completed {
+          .achievement-icon {
+            animation: bounce 2s ease-in-out infinite;
+          }
+
+          .achievement-name {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+          }
+        }
+
+        // تأثيرات خاصة للإنجازات الأسطورية
+        &.legendary {
+          .achievement-icon {
+            animation: pulse-glow 2s ease-in-out infinite;
+          }
+        }
+      }
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 80px 20px;
+
+      .empty-icon {
+        width: 100px;
+        height: 100px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 20px;
+
+        mat-icon {
+          font-size: 50px;
+          width: 50px;
+          height: 50px;
+          color: rgba(225, 231, 239, 0.5);
+        }
+      }
+
+      h3 {
+        font-size: 1.5rem;
+        color: #e1e7ef;
+        margin-bottom: 12px;
+      }
+
+      p {
+        color: rgba(225, 231, 239, 0.7);
+        max-width: 400px;
+        margin: 0 auto;
+        line-height: 1.5;
+      }
+    }
+  }
+}
+
+/* Animations */
+@keyframes sparkle {
+  0%, 100% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(255, 152, 0, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(255, 152, 0, 0.8);
+  }
+}
+
+@keyframes glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(255, 152, 0, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(255, 152, 0, 0.6);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .achievements-container {
+    .progress-overview .overview-card {
+      flex-direction: column;
+      gap: 40px;
+      text-align: center;
+
+      .overview-stats {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+      }
+    }
+
+    .achievements-content .achievements-grid {
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .achievements-container {
+    .achievements-header .header-content {
+      flex-direction: column;
+      gap: 15px;
+      text-align: center;
+
+      .header-title h1 {
+        font-size: 2rem;
+      }
+    }
+
+    .progress-overview {
+      padding: 20px 15px;
+
+      .overview-card {
+        padding: 30px 20px;
+
+        .overview-stats {
+          grid-template-columns: 1fr;
+          gap: 15px;
+        }
+      }
+    }
+
+    .achievements-content {
+      padding: 15px;
+
+      .categories-section .categories-grid {
+        gap: 8px;
+
+        .category-btn {
+          padding: 12px 16px;
+          min-width: 120px;
+        }
+      }
+
+      .achievements-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .achievements-container {
+    .progress-overview .overview-card {
+      .progress-circle {
+        width: 120px;
+        height: 120px;
+
+        .progress-text .percentage {
+          font-size: 2rem;
+        }
+      }
+    }
+
+    .achievements-content .achievements-grid .achievement-card {
+      .achievement-content {
+        padding: 20px;
+
+        .achievement-header {
+          flex-direction: column;
+          gap: 12px;
+          text-align: center;
+
+          .achievement-info {
+            .achievement-meta {
+              justify-content: center;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+/* Dark Theme Enhancements */
+.achievements-container {
+  .achievement-card {
+    &.completed:hover {
+      box-shadow: 0 10px 30px rgba(76, 175, 80, 0.2);
+    }
+
+    &.rare:hover {
+      box-shadow: 0 10px 30px rgba(33, 150, 243, 0.2);
+    }
+
+    &.epic:hover {
+      box-shadow: 0 10px 30px rgba(156, 39, 176, 0.2);
+    }
+
+    &.legendary:hover {
+      box-shadow: 0 10px 30px rgba(255, 152, 0, 0.3);
+    }
+  }
+}
+
+/* RTL Support */
+:host-context([dir="rtl"]) {
+  .achievements-container {
+    .achievements-header .header-content,
+    .achievement-header,
+    .progress-info {
+      flex-direction: row-reverse;
+    }
+
+    .categories-grid,
+    .overview-stats {
+      flex-direction: row-reverse;
+    }
+  }
+}
+
+/* Loading States */
+.achievement-card {
+  &.loading {
+    opacity: 0.5;
+    pointer-events: none;
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+      animation: loading 1.5s infinite;
+    }
+  }
+}
+
+@keyframes loading {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Scrollbar Styling */
+.achievements-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.achievements-content::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+.achievements-content::-webkit-scrollbar-thumb {
+  background: rgba(26, 115, 232, 0.5);
+  border-radius: 4px;
+
+  &:hover {
+    background: rgba(26, 115, 232, 0.7);
+  }
+}

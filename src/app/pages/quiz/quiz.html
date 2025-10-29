@@ -1,0 +1,184 @@
+@if (isLoading) {
+  <app-loading
+    [message]="'INITIALIZING_CHALLENGE' | translate"
+    type="spinner">
+  </app-loading>
+} @else if (gameCompleted) {
+  <div class="quiz-completed">
+    <div class="completion-content">
+      <div class="completion-icon">
+        <mat-icon>military_tech</mat-icon>
+      </div>
+      <h1>CHALLENGE COMPLETED</h1>
+      <p class="completion-message">You have conquered the {{ selectedLevel.name }} level</p>
+
+      <div class="results-grid">
+        <div class="result-card">
+          <div class="result-value">{{ score }}</div>
+          <div class="result-label">FINAL SCORE</div>
+        </div>
+        <div class="result-card">
+          <div class="result-value">{{ coinsEarned }}</div>
+          <div class="result-label">CREDITS EARNED</div>
+        </div>
+        <div class="result-card">
+          <div class="result-value">{{ Math.floor(score / 10) }}/{{ questions.length }}</div>
+          <div class="result-label">CORRECT ANSWERS</div>
+        </div>
+      </div>
+
+      <div class="completion-actions">
+        <button class="action-btn primary" (click)="goToResults()">
+          <mat-icon>analytics</mat-icon>
+          VIEW DETAILED RESULTS
+        </button>
+        <button class="action-btn" (click)="exitGame()">
+          <mat-icon>exit_to_app</mat-icon>
+          RETURN TO MATRIX
+        </button>
+      </div>
+    </div>
+  </div>
+} @else {
+  <div class="quiz-container">
+    <!-- Background Elements -->
+    <div class="matrix-bg"></div>
+    <div class="cyber-grid">
+      <div class="grid-line vertical"></div>
+      <div class="grid-line horizontal"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="quiz-header">
+      <div class="header-content">
+        <!-- Level Info -->
+        <div class="level-info">
+          <div class="level-badge" [style.background]="selectedLevel.color">
+            <mat-icon>{{ selectedLevel.icon }}</mat-icon>
+            <span>{{ selectedLevel.name }}</span>
+          </div>
+          <div class="level-difficulty">
+            {{ getDifficultyText(selectedLevel.difficulty) }}
+          </div>
+        </div>
+
+        <!-- Progress -->
+        <div class="progress-info">
+          <div class="progress-text">
+            QUESTION {{ currentQuestionIndex + 1 }} OF {{ questions.length }}
+          </div>
+          <mat-progress-bar
+            [value]="getProgressPercentage()"
+            mode="determinate"
+            color="primary">
+          </mat-progress-bar>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-info">
+          <div class="stat">
+            <mat-icon>score</mat-icon>
+            <span>{{ score }} POINTS</span>
+          </div>
+          <div class="stat">
+            <mat-icon>memory</mat-icon>
+            <span>{{ coinsEarned }} CREDITS</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="quiz-content">
+      <!-- Timer -->
+      <div class="timer-section">
+        <div class="timer-circle" [class]="getTimeColor()">
+          <div class="timer-value">{{ timeLeft }}</div>
+          <div class="timer-label">SECONDS</div>
+        </div>
+      </div>
+
+      <!-- Question Card -->
+      <div class="question-section">
+        <div class="question-card">
+          <!-- Question Header -->
+          <div class="question-header">
+            <h2 class="question-number">CHALLENGE #{{ currentQuestionIndex + 1 }}</h2>
+            <div class="question-tools">
+              <button
+                class="tool-btn"
+                [class.available]="skipToolAvailable"
+                (click)="useSkipTool()"
+                matTooltip="Skip this question">
+                <mat-icon>fast_forward</mat-icon>
+                SKIP
+              </button>
+              <button
+                class="tool-btn"
+                [class.available]="removeTwoToolAvailable"
+                (click)="useRemoveTwoTool()"
+                matTooltip="Remove two wrong answers">
+                <mat-icon>filter_alt</mat-icon>
+                REMOVE 2
+              </button>
+            </div>
+          </div>
+
+          <!-- Question Text -->
+          <div class="question-text">
+            <p>{{ currentQuestion.text }}</p>
+          </div>
+
+          <!-- Code Snippet (if available) -->
+          @if (currentQuestion.codeSnippet) {
+            <div class="code-snippet">
+              <pre><code>{{ currentQuestion.codeSnippet }}</code></pre>
+            </div>
+          }
+
+          <!-- Answers -->
+          <div class="answers-grid">
+            <button
+              *ngFor="let option of currentQuestion.options; let i = index"
+              class="answer-option"
+              [class.selected]="selectedAnswer === i"
+              [class.correct]="isAnswered && i === currentQuestion.correctAnswer"
+              [class.wrong]="isAnswered && selectedAnswer === i && selectedAnswer !== currentQuestion.correctAnswer"
+              [disabled]="isAnswered"
+              (click)="selectAnswer(i)">
+
+              <span class="option-letter">{{ getOptionLetter(i) }}</span>
+              <span class="option-text">{{ option }}</span>
+
+              @if (isAnswered && i === currentQuestion.correctAnswer) {
+                <mat-icon class="status-icon correct">check_circle</mat-icon>
+              }
+              @if (isAnswered && selectedAnswer === i && selectedAnswer !== currentQuestion.correctAnswer) {
+                <mat-icon class="status-icon wrong">cancel</mat-icon>
+              }
+            </button>
+          </div>
+
+          <!-- Explanation (when answered) -->
+          @if (isAnswered) {
+            <div class="explanation-section">
+              <div class="explanation-header">
+                <mat-icon>info</mat-icon>
+                <span>EXPLANATION</span>
+              </div>
+              <p class="explanation-text">{{ currentQuestion.explanation }}</p>
+            </div>
+          }
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="quiz-footer">
+      <button class="exit-btn" (click)="exitGame()">
+        <mat-icon>emergency_exit</mat-icon>
+        ABORT CHALLENGE
+      </button>
+    </footer>
+  </div>
+}

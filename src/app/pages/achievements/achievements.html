@@ -1,0 +1,191 @@
+@if (isLoading) {
+  <app-loading
+    [message]="'ACCESSING_ACHIEVEMENT_CORE' | translate"
+    type="dots">
+  </app-loading>
+} @else {
+  <div class="achievements-container">
+    <!-- Background Elements -->
+    <div class="matrix-bg"></div>
+    <div class="cyber-grid">
+      <div class="grid-line vertical"></div>
+      <div class="grid-line horizontal"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="achievements-header">
+      <div class="header-content">
+        <button class="back-btn" (click)="goBack()">
+          <mat-icon>arrow_back</mat-icon>
+          <span>{{ 'MAIN_FRAME' | translate }}</span>
+        </button>
+
+        <div class="header-title">
+          <h1>{{ 'ACHIEVEMENT_CORE' | translate }}</h1>
+          <p>{{ 'VIEW_PROGRESS' | translate }}</p>
+        </div>
+
+        <div class="user-stats">
+          <div class="stat-item">
+            <mat-icon>emoji_events</mat-icon>
+            <span>{{ unlockedAchievements }}/{{ totalAchievements }}</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Progress Overview -->
+    <section class="progress-overview">
+      <div class="overview-card">
+        <div class="progress-circle">
+          <div class="circle-background"></div>
+          <div class="circle-progress" [style.transform]="'rotate(' + (getCompletionPercentage() * 3.6) + 'deg)'"></div>
+          <div class="progress-text">
+            <span class="percentage">{{ getCompletionPercentage() | number:'1.0-0' }}%</span>
+            <span class="label">{{ 'COMPLETE' | translate }}</span>
+          </div>
+        </div>
+        <div class="overview-stats">
+          <div class="stat">
+            <mat-icon class="unlocked">check_circle</mat-icon>
+            <div>
+              <span class="count">{{ unlockedAchievements }}</span>
+              <span class="description">{{ 'UNLOCKED' | translate }}</span>
+            </div>
+          </div>
+          <div class="stat">
+            <mat-icon class="locked">lock</mat-icon>
+            <div>
+              <span class="count">{{ totalAchievements - unlockedAchievements }}</span>
+              <span class="description">{{ 'LOCKED' | translate }}</span>
+            </div>
+          </div>
+          <div class="stat">
+            <mat-icon class="coins">savings</mat-icon>
+            <div>
+              <span class="count">{{ userCoins }}</span>
+              <span class="description">{{ 'TOTAL_COINS' | translate }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="achievements-content">
+      <!-- Categories -->
+      <div class="categories-section">
+        <div class="categories-grid">
+          <button
+            *ngFor="let category of ['all', 'level', 'score', 'streak', 'tools', 'special']"
+            class="category-btn"
+            [class.active]="activeCategory === category"
+            (click)="filterAchievements(category)">
+            <span class="category-text">{{ getCategoryName(category) | translate }}</span>
+            <span class="category-count">
+              {{ getCategoryCount(category) }}
+
+            </span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Achievements Grid -->
+      <div class="achievements-grid">
+        <div
+          *ngFor="let achievement of filteredAchievements"
+          class="achievement-card"
+          [class]="achievement.rarity"
+          [class.completed]="achievement.completed"
+          [class.locked]="!achievement.completed">
+
+          <!-- Achievement Glow -->
+          <div class="achievement-glow" [style.background]="achievement.color"></div>
+
+          <!-- Rarity Border -->
+          <div class="rarity-border" [style.border-color]="getRarityColor(achievement.rarity)"></div>
+
+          <!-- Achievement Content -->
+          <div class="achievement-content">
+            <!-- Achievement Header -->
+            <div class="achievement-header">
+              <div class="achievement-icon" [style.background]="achievement.color">
+                <mat-icon>{{ achievement.icon }}</mat-icon>
+              </div>
+              <div class="achievement-info">
+                <h3 class="achievement-name">{{ achievement.name | translate }}</h3>
+                <div class="achievement-meta">
+                  <span class="achievement-rarity" [style.color]="getRarityColor(achievement.rarity)">
+                    {{ achievement.rarity | uppercase }}
+                  </span>
+                  <span class="achievement-category">
+                    {{ getCategoryName(achievement.category) | translate }}
+                  </span>
+                </div>
+              </div>
+              <div class="achievement-reward" *ngIf="achievement.completed">
+                <div class="reward-badge">
+                  <mat-icon>savings</mat-icon>
+                  <span>+{{ achievement.reward }}</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Achievement Description -->
+            <p class="achievement-description">{{ achievement.description | translate }}</p>
+
+            <!-- Progress Section -->
+            <div class="progress-section">
+              <div class="progress-info">
+                <span class="progress-text">
+                  {{ achievement.currentProgress }}/{{ achievement.requirement }}
+                </span>
+                <span class="progress-percentage">
+                  {{ getProgressPercentage(achievement) | number:'1.0-0' }}%
+                </span>
+              </div>
+              <mat-progress-bar
+                [value]="getProgressPercentage(achievement)"
+                mode="determinate"
+                [color]="achievement.completed ? 'primary' : 'accent'">
+              </mat-progress-bar>
+            </div>
+
+            <!-- Status Badge -->
+            <div class="status-section">
+              @if (achievement.completed) {
+                <div class="status-badge completed">
+                  <mat-icon>verified</mat-icon>
+                  <span>{{ 'UNLOCKED' | translate }}</span>
+                </div>
+              } @else {
+                <div class="status-badge locked">
+                  <mat-icon>lock</mat-icon>
+                  <span>{{ 'IN_PROGRESS' | translate }}</span>
+                </div>
+              }
+            </div>
+          </div>
+
+          <!-- Completion Effects -->
+          @if (achievement.completed) {
+            <div class="completion-effects">
+              <div class="sparkle"></div>
+              <div class="sparkle delay-1"></div>
+              <div class="sparkle delay-2"></div>
+            </div>
+          }
+        </div>
+      </div>
+
+      <!-- Empty State -->
+      <div class="empty-state" *ngIf="filteredAchievements.length === 0">
+        <div class="empty-icon">
+          <mat-icon>emoji_events</mat-icon>
+        </div>
+        <h3>{{ 'NO_ACHIEVEMENTS' | translate }}</h3>
+        <p>{{ 'NO_ACHIEVEMENTS_DESC' | translate }}</p>
+      </div>
+    </main>
+  </div>
+}

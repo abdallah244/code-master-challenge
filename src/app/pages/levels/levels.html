@@ -1,0 +1,169 @@
+@if (isLoading) {
+  <app-loading
+    [message]="'ACCESSING_DIFFICULTY_MATRIX' | translate"
+    type="dots">
+  </app-loading>
+} @else {
+  <div class="levels-container">
+    <!-- Background Elements -->
+    <div class="matrix-bg"></div>
+    <div class="cyber-grid">
+      <div class="grid-line vertical"></div>
+      <div class="grid-line horizontal"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+      <div class="header-content">
+        <button class="back-btn" (click)="goBack()">
+          <mat-icon>arrow_back</mat-icon>
+          <span>{{ 'MAIN_FRAME' | translate }}</span>
+        </button>
+
+        <div class="header-title">
+          <h1>{{ 'DIFFICULTY_MATRIX' | translate }}</h1>
+          <p>{{ 'SELECT_CHALLENGE_LEVEL' | translate }}</p>
+        </div>
+
+        <div class="user-stats">
+          <div class="stat-item">
+            <mat-icon>memory</mat-icon>
+            <span>{{ userCoins }} {{ 'CPU_CREDITS' | translate }}</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="levels-grid">
+        <div
+          *ngFor="let level of levels"
+          class="level-card"
+          [class]="level.difficulty"
+          [class.unlocked]="level.unlocked"
+          [class.locked]="!level.unlocked"
+          (click)="selectLevel(level)">
+
+          <!-- Card Glow Effect -->
+          <div class="card-glow" [style.background]="level.color"></div>
+
+          <!-- Card Content -->
+          <div class="card-content">
+            <!-- Level Header -->
+            <div class="level-header">
+              <div class="level-icon" [style.background]="level.color">
+                <mat-icon>{{ level.icon }}</mat-icon>
+              </div>
+              <div class="level-info">
+                <h3 class="level-name">{{ level.name | translate }}</h3>
+                <span class="level-difficulty" [style.color]="level.color">
+                  {{ getDifficultyText(level.difficulty) | translate }}
+                </span>
+              </div>
+              <div class="level-status">
+                @if (level.unlocked) {
+                  @if (level.completed) {
+                    <mat-icon class="status-completed">verified</mat-icon>
+                  } @else {
+                    <mat-icon class="status-available">lock_open</mat-icon>
+                  }
+                } @else {
+                  <mat-icon class="status-locked">lock</mat-icon>
+                }
+              </div>
+            </div>
+
+            <!-- Level Description -->
+            <p class="level-description">{{ level.description | translate }}</p>
+
+            <!-- Level Stats -->
+            <div class="level-stats">
+              <div class="stat">
+                <mat-icon>quiz</mat-icon>
+                <span>{{ level.totalQuestions }} {{ 'QUESTIONS' | translate }}</span>
+              </div>
+              <div class="stat">
+                <mat-icon>timer</mat-icon>
+                <span>{{ level.timeLimit }}s {{ 'PER_QUESTION' | translate }}</span>
+              </div>
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="progress-section">
+              <mat-progress-bar
+                [value]="getLevelProgress(level)"
+                mode="determinate"
+                [color]="level.unlocked ? 'primary' : 'warn'">
+              </mat-progress-bar>
+              <span class="progress-text">
+                {{ getLevelProgress(level) | number:'1.0-0' }}% {{ 'COMPLETE' | translate }}
+              </span>
+            </div>
+
+            <!-- Action Button -->
+            <div class="action-section">
+              @if (level.unlocked) {
+                <button
+                  class="start-btn"
+                  [style.background]="level.color"
+                  (click)="selectLevel(level); $event.stopPropagation()">
+                  <mat-icon>play_arrow</mat-icon>
+                  {{ 'INITIATE_CHALLENGE' | translate }}
+                </button>
+              } @else {
+                <button
+                  class="unlock-btn"
+                  (click)="selectLevel(level); $event.stopPropagation()">
+                  <mat-icon>lock</mat-icon>
+                  {{ 'UNLOCK_FOR' | translate }} {{ level.requiredCoins }} {{ 'CREDITS' | translate }}
+                </button>
+              }
+            </div>
+
+            <!-- Locked Overlay -->
+            @if (!level.unlocked) {
+              <div class="locked-overlay">
+                <div class="lock-icon">
+                  <mat-icon>admin_panel_settings</mat-icon>
+                </div>
+                <p>{{ 'SECURITY_CLEARANCE_REQUIRED' | translate }}</p>
+                <span>{{ level.requiredCoins }} {{ 'CPU_CREDITS' | translate }} {{ 'NEEDED' | translate }}</span>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- Info Panel -->
+      <div class="info-panel">
+        <div class="info-card">
+          <h3>{{ 'SYSTEM_BRIEFING' | translate }}</h3>
+          <div class="info-content">
+            <div class="info-item">
+              <mat-icon>speed</mat-icon>
+              <div>
+                <strong>{{ 'TIME_ATTACK' | translate }}</strong>
+                <p>{{ 'TIME_ATTACK_DESC' | translate }}</p>
+              </div>
+            </div>
+            <div class="info-item">
+              <mat-icon>trending_up</mat-icon>
+              <div>
+                <strong>{{ 'PROGRESS_TRACKING' | translate }}</strong>
+                <p>{{ 'PROGRESS_TRACKING_DESC' | translate }}</p>
+              </div>
+            </div>
+            <div class="info-item">
+              <mat-icon>emergency</mat-icon>
+              <div>
+                <strong>{{ 'DIFFICULTY_SCALING' | translate }}</strong>
+                <p>{{ 'DIFFICULTY_SCALING_DESC' | translate }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+}
