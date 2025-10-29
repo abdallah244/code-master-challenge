@@ -102,7 +102,7 @@ npm install
 ng serve
 
 
-Open your browser at http://localhost:4200/ to play the game.
+Open your browser at (https://vercel.com/abdallahs-projects-d8c16d27/code-master-challenge) to play the game.
 
 🔗 Play Now
 
